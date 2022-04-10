@@ -20,7 +20,7 @@ it('Create new user', () => {
           }).then((res) => {
               expect(res.status).to.equal(201),
               expect(res.duration).to.be.lessThan(2000),
-              expect(res.headers).to.have.property('content-type','application/json')
+              expect(res.headers).to.have.property('content-type','application/json; charset=utf-8')
           })
     })
     

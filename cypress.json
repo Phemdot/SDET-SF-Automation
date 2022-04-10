@@ -1,1 +1,12 @@
-{}
+{
+    "screenshotOnRunFailure": true,
+    "reporter": "cypress-mochawesome-reporter",
+    "reporterOptions": {
+        "reportDir": "cypress/report",
+        "charts": true,
+        "reportPageTitle": "Single Automation API and UI Framework",
+        "embeddedScreenshots": true 
+      }
+
+      
+}
