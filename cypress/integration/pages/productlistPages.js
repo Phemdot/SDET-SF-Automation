@@ -2,13 +2,14 @@ export default class productlistPages{
     
     hamburgerIcon = '.hm-icon'
     deviceCategories = '.hmenu-visible > :nth-child(16) > .hmenu-item'
-    tvSelection = 'ul.hmenu:nth-child(9) > li:nth-child(3) > a'
-    //samsungBrand = 'div.a-section:nth-child(17) > ul:nth-child(2) > li:nth-child(2) > span:nth-child(1) > a:nth-child(1) > span'
-    samsungBrand = 'div.a-section:nth-child(17) > ul:nth-child(2) > li:nth-child(4) > span:nth-child(1) > a:nth-child(1) > div:nth-child(1) > label:nth-child(1) > i'
+    tvSelection = ':nth-child(2) > :nth-child(1) > .nav_cat_links > .nav_first > .nav_a'
+    tvSelection2 = 'ul[class="hmenu hmenu-visible hmenu-translateX"] li:nth-child(3) a'
+    samsungBrand = 'div.a-section:nth-child(17)'
     sortBy = '.a-dropdown-prompt'
     sortByHighToLowPrice = '#s-result-sort-select_2'
     secondHighestPrice = '.widgetId\\=search-results_2 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > h2:nth-child(1) > a'
-    aboutTheItem = '#featurebullets_feature_div'
+    aboutTheItem = '#feature-bullets'
+    searchResult= '.s-main-slot'
 
 
 
@@ -24,20 +25,37 @@ export default class productlistPages{
     }
 
     selectDeviceCategory(){
-        cy.get('ul.hmenu:nth-child(1) > li:nth-child(14) > div', {timeout:10000}).should('have.text', 'shop by department')
+        cy.get('.hmenu-visible > :nth-child(14) > .hmenu-item', {timeout:10000}).should('have.text', 'shop by department')
         cy.get(this.deviceCategories).click({ force: true})
+        
     }
 
     selectTV(){
-        cy.get('ul.hmenu:nth-child(9) > li:nth-child(2) > div', {timeout:5000}).should('have.text', 'tv, audio & cameras')
-        cy.get(this.tvSelection).click({ force: true})
-        cy.get('div[id="sobe_d_b_6-carousel"] h2').should('have.text', 'Latest Launches in TVs')
 
+        cy.get(this.tvSelection, {timeout:40000}).should('be.visible')
+        cy.get(this.tvSelection).click({ force: true})
+        //cy.get('div[id="sobe_d_b_6-carousel"] h2').should('have.text', 'Latest Launches in TVs')
+
+        //cy.get('.hmenu-visible > :nth-child(2) > .hmenu-item').then(($TVSelect)=>{
+           // if(expect(this.tvSelection, {timeout:20000}).to.exist){
+           //     cy.get(this.tvSelection).click({ force: true})
+           // }
+           // else
+           // {
+            //    cy.get(this.tvSelection2, {timeout:20000}).click({ force: true})
+
+            //}
+        //})
+        
     }
 
     selectSamsungBrand(){
-        cy.get(this.samsungBrand).click({ force: true})
-        cy.get('div.s-no-outline > span').should('have.text', 'RESULTS')
+        cy.get(this.samsungBrand).then(function($TVBrand){
+            const BrandText = $TVBrand.text()
+            cy.log(BrandText)
+            expect(BrandText).to.contain('Brands')
+            cy.contains('Samsung').click({ force: true})
+        })
 
     }
 
@@ -49,8 +67,9 @@ export default class productlistPages{
     }
 
     chooseSecondHighest(){
+        cy.get(this.searchResult)
         cy.get(this.secondHighestPrice).invoke('removeAttr', 'target').click({ force: true})
-        cy.get('h1.a-size-base-plus').should('have.text', 'About this item')
+        cy.get(this.aboutTheItem).contains('About this item')
         cy.get(this.aboutTheItem).invoke('text').then(cy.log)
 
     }

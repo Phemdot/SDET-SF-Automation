@@ -1,5 +1,6 @@
 {
-    "screenshotOnRunFailure": true,
+  "chromeWebSecurity": false,  
+  "screenshotOnRunFailure": true,
     "reporter": "cypress-mochawesome-reporter",
     "reporterOptions": {
         "reportDir": "cypress/report",
